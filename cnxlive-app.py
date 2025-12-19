@@ -1,114 +1,108 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, timedelta
+from fpdf import FPDF
+import io
 
 # Set Page Config
 st.set_page_config(page_title="Chiang Mai Live Dashboard", page_icon="🐘", layout="wide")
 
 # --- DATA ENGINE ---
-# We define events with start/end dates to make the "Calendar" functional.
 events_master = [
     {
         "Name": "Charming Chiang Mai Flower Fest",
         "Category": "Festival",
-        "Start": datetime(2025, 11, 28),
-        "End": datetime(2026, 1, 5),
+        "Start": datetime(2025, 11, 28), "End": datetime(2026, 1, 5),
         "Brief": "Theme: 'Gold of Lanna'. Massive light sculptures and musical fountain shows (7PM-10PM).",
-        "Location": "Chiang Mai PAO Park",
-        "lat": 18.8288, "lon": 98.9772,
+        "Location": "Chiang Mai PAO Park", "lat": 18.8288, "lon": 98.9772,
         "Link": "https://www.facebook.com/charmingchiangmaiflowerfestival"
     },
     {
         "Name": "Ping Fai Festival (Santa Village)",
         "Category": "Market",
-        "Start": datetime(2025, 12, 13),
-        "End": datetime(2025, 12, 25),
+        "Start": datetime(2025, 12, 13), "End": datetime(2025, 12, 25),
         "Brief": "Toast marshmallows over open fires, shop at 50+ craft vendors in Nimman.",
-        "Location": "One Nimman",
-        "lat": 18.7999, "lon": 98.9678,
+        "Location": "One Nimman", "lat": 18.7999, "lon": 98.9678,
         "Link": "https://www.facebook.com/pro.onenimman/"
-    },
-    {
-        "Name": "Flora Festival 2025",
-        "Category": "Festival",
-        "Start": datetime(2025, 11, 1),
-        "End": datetime(2026, 2, 28),
-        "Brief": "Millions of highland blooms and a 360-degree Sky Walk viewpoint.",
-        "Location": "Royal Park Rajapruek",
-        "lat": 18.7516, "lon": 98.9247,
-        "Link": "https://www.royalparkrajapruek.org/"
-    },
-    {
-        "Name": "Chiang Mai CAD Countdown 2026",
-        "Category": "Festival",
-        "Start": datetime(2025, 12, 29),
-        "End": datetime(2025, 12, 31),
-        "Brief": "Traditional Lanna market, fireworks, and cultural performances in Mae On.",
-        "Location": "CAD Cultural Center",
-        "lat": 18.7663, "lon": 99.2421,
-        "Link": "https://faceticket.net/en/product/30-december-2025-ticket-chiang-mai-cad-festival/"
     },
     {
         "Name": "Jing Jai Muan Muan Market",
         "Category": "Market",
-        "Start": datetime(2025, 12, 18),
-        "End": datetime(2025, 12, 21),
+        "Start": datetime(2025, 12, 18), "End": datetime(2025, 12, 21),
         "Brief": "Annual Open House with 600+ craft and organic food vendors.",
-        "Location": "Jing Jai Central",
-        "lat": 18.8073, "lon": 98.9955,
+        "Location": "Jing Jai Central", "lat": 18.8073, "lon": 98.9955,
         "Link": "https://www.facebook.com/jjmarketchiangmai/"
+    },
+    {
+        "Name": "Flora Festival 2025",
+        "Category": "Festival",
+        "Start": datetime(2025, 11, 1), "End": datetime(2026, 2, 28),
+        "Brief": "Millions of highland blooms and a 360-degree Sky Walk viewpoint.",
+        "Location": "Royal Park Rajapruek", "lat": 18.7516, "lon": 98.9247,
+        "Link": "https://www.royalparkrajapruek.org/"
     }
 ]
 
-# --- SIDEBAR NAVIGATION ---
-st.sidebar.title("🗓️ Event Navigator")
+# --- SIDEBAR & FILTERS ---
+st.sidebar.title("🗓️ Plan Your Trip")
 selected_date = st.sidebar.date_input("Pick a Date", datetime(2025, 12, 19))
-view_mode = st.sidebar.radio("View Mode", ["Single Day", "Full Week"])
+view_mode = st.sidebar.radio("View Range", ["Single Day", "Full Week"])
 
-# --- FILTER LOGIC ---
-if view_mode == "Single Day":
-    display_start = datetime.combine(selected_date, datetime.min.time())
-    display_end = display_start
-else:
-    display_start = datetime.combine(selected_date, datetime.min.time())
-    display_end = display_start + timedelta(days=6)
+# Determine date range for filtering
+d_start = datetime.combine(selected_date, datetime.min.time())
+d_end = d_start if view_mode == "Single Day" else d_start + timedelta(days=6)
 
-# Filter events that overlap with the selected range
-filtered_events = [
-    e for e in events_master 
-    if (e["Start"] <= display_end and e["End"] >= display_start)
-]
+# Filter Logic
+filtered_events = [e for e in events_master if (e["Start"] <= d_end and e["End"] >= d_start)]
 
-# --- UI LAYOUT ---
+# --- PDF GENERATOR FUNCTION ---
+def generate_pdf(events, date_str):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Helvetica", "B", 16)
+    pdf.cell(0, 10, f"Chiang Mai Itinerary: {date_str}", ln=True, align="C")
+    pdf.ln(10)
+    
+    for ev in events:
+        pdf.set_font("Helvetica", "B", 12)
+        pdf.cell(0, 8, f"• {ev['Name']}", ln=True)
+        pdf.set_font("Helvetica", "", 10)
+        pdf.multi_cell(0, 5, f"Location: {ev['Location']}\nDescription: {ev['Brief']}\nLink: {ev['Link']}\n")
+        pdf.ln(5)
+    
+    return pdf.output()
+
+# --- MAIN UI ---
 st.title("🐘 Chiang Mai Event Explorer")
-if view_mode == "Single Day":
-    st.header(f"What's happening on {selected_date.strftime('%A, %b %d')}")
-else:
-    st.header(f"Events for the Week of {selected_date.strftime('%b %d')} - {(selected_date + timedelta(days=6)).strftime('%b %d')}")
+col_map, col_details = st.columns([2, 1])
 
-# Map Section
-if filtered_events:
-    map_df = pd.DataFrame(filtered_events)
-    st.map(map_df)
-else:
-    st.warning("No major festivals found for this specific date range.")
+with col_map:
+    st.subheader("📍 Event Map")
+    if filtered_events:
+        st.map(pd.DataFrame(filtered_events))
+    else:
+        st.info("No major festivals found for this range.")
 
-# Details Section
-st.subheader("📍 Event List & Highlights")
-if filtered_events:
-    for ev in filtered_events:
-        with st.expander(f"📌 {ev['Name']} ({ev['Location']})"):
-            st.write(f"**About:** {ev['Brief']}")
-            st.write(f"**Dates:** {ev['Start'].strftime('%b %d')} to {ev['End'].strftime('%b %d, %Y')}")
-            
-            c1, c2 = st.columns(2)
-            with c1:
-                st.link_button("🌐 Info Page", ev['Link'])
-            with c2:
-                gmaps = f"https://www.google.com/maps/search/?api=1&query={ev['lat']},{ev['lon']}"
-                st.link_button("📍 Get Directions", gmaps)
-else:
-    st.info("Check back later or try picking a date closer to Christmas/New Year!")
+with col_details:
+    st.subheader("📑 Itinerary Export")
+    date_label = d_start.strftime('%b %d') if view_mode == "Single Day" else f"{d_start.strftime('%b %d')} - {d_end.strftime('%b %d')}"
+    
+    if filtered_events:
+        pdf_data = generate_pdf(filtered_events, date_label)
+        st.download_button(
+            label="📥 Save as PDF Itinerary",
+            data=bytes(pdf_data),
+            file_name=f"ChiangMai_Itinerary_{selected_date}.pdf",
+            mime="application/pdf"
+        )
+    
+    st.markdown("---")
+    st.write("**Top Tip:** Evening temperatures drop to 16°C. Bring a light jacket for the outdoor markets!")
 
+# Display Event Cards
 st.divider()
-st.caption("Tip: Most Chiang Mai events are announced on Facebook. Always check 'Official Info' links for last-minute schedule changes.")
+st.subheader(f"Highlights for {date_label}")
+for ev in filtered_events:
+    with st.expander(f"📌 {ev['Name']}"):
+        st.write(ev['Brief'])
+        st.link_button("Official Link", ev['Link'])
