@@ -81,7 +81,7 @@ filtered_events = [e for e in events_master if (e["Start"] <= d_end and e["End"]
 
 # --- 主页面 UI / MAIN UI ---
 st.title("🐘 Chiang Mai Event Explorer")
-st.title("清迈动态活动探索器")
+st.title("清迈最新活动")
 
 date_label_en = d_start.strftime('%B %d, %Y') if "Single" in view_mode else f"{d_start.strftime('%b %d')} - {d_end.strftime('%B %d, %Y')}"
 date_label_cn = d_start.strftime('%Y年%m月%d日') if "Single" in view_mode else f"{d_start.strftime('%m月%d日')} - {d_end.strftime('%Y年%m月%d日')}"
