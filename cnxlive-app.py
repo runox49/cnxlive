@@ -70,7 +70,7 @@ events_master = [
 ]
 
 # --- 侧边栏 / SIDEBAR ---
-st.sidebar.title("🗓️ Plan Your Trip / 行程计划")
+st.sidebar.title("🗓️ Plan Your Trip / 规划行程")
 selected_date = st.sidebar.date_input("Select Date / 选择日期", datetime(2025, 12, 19))
 view_mode = st.sidebar.radio("View Range / 查看范围", ["Single Day / 单日", "Full Week / 整周"])
 
