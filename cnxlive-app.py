@@ -95,8 +95,8 @@ if filtered_events:
     for ev in filtered_events:
         with st.expander(f"📌 {ev['Name_EN']} | {ev['Name_CN']}"):
             # 中英描述
-            st.write(f"**** {ev['Brief_EN']}")
-            st.write(f"**** {ev['Brief_CN']}")
+            st.write(f"{ev['Brief_EN']}")
+            st.write(f" {ev['Brief_CN']}")
             st.write(f"**Location / 地点:** {ev['Location_EN']} ({ev['Location_CN']})")
             st.write(f"**Dates / 日期:** {ev['Start'].strftime('%b %d')} - {ev['End'].strftime('%b %d, %Y')}")
             
