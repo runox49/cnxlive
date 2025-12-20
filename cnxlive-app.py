@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 # Page Config
 st.set_page_config(page_title="Chiang Mai Explorer", page_icon="🐘", layout="wide")
 
-# --- DATA: SPECIAL & SEASONAL EVENTS ---
+# --- 1. DATA: SPECIAL & SEASONAL EVENTS (All Original Events Kept) ---
 festivals = [
     {
         "Name_CN": "魅力清迈花卉节", "Name_EN": "Charming Chiang Mai Flower Fest",
@@ -16,27 +16,69 @@ festivals = [
         "lat": 18.8288, "lon": 98.9772, "Link": "https://www.facebook.com/charmingchiangmaiflowerfestival"
     },
     {
-        "Name_CN": "皇家花园花卉节", "Name_EN": "Flora Festival (Royal Park)",
+        "Name_CN": "皇家花园花卉节", "Name_EN": "Flora Festival (Royal Park Rajapruek)",
         "Start": datetime(2025, 11, 1), "End": datetime(2026, 2, 28),
-        "Brief_CN": "年度花展，包含兰花园和数百万株冬季花卉。",
-        "Brief_EN": "Grand annual botanical garden festival featuring winter flower displays.",
+        "Brief_CN": "年度盛大花展，包含兰花园、空中步道和数百万株冬季花卉。",
+        "Brief_EN": "Grand annual botanical garden festival featuring spectacular winter flower displays.",
         "Location_CN": "拉查帕皇家花园", "Location_EN": "Royal Park Rajapruek",
         "lat": 18.7480, "lon": 98.9249, "Link": "https://www.royalparkrajapruek.org/"
+    },
+    {
+        "Name_CN": "Ping Fai 烤火节 (圣诞村)", "Name_EN": "Ping Fai Festival (Santa Village)",
+        "Start": datetime(2025, 12, 13), "End": datetime(2025, 12, 25),
+        "Brief_CN": "宁曼区最火圣诞活动：围炉烤棉花糖、文创摊位、巨型圣诞树。",
+        "Brief_EN": "The ultimate Christmas vibe in Nimman with marshmallow roasting and crafts.",
+        "Location_CN": "One Nimman 广场", "Location_EN": "One Nimman",
+        "lat": 18.8001, "lon": 98.9684, "Link": "https://www.facebook.com/pro.onenimman/"
+    },
+    {
+        "Name_CN": "CAD 跨年烟火秀", "Name_EN": "Chiang Mai CAD Countdown 2026",
+        "Start": datetime(2025, 12, 30), "End": datetime(2025, 12, 31),
+        "Brief_CN": "泰北最震撼的跨年烟火表演，结合兰纳文化表演。",
+        "Brief_EN": "Breathtaking fireworks and Lanna cultural shows in Mae On.",
+        "Location_CN": "CAD 文化中心", "Location_EN": "CAD Cultural Center Lanna",
+        "lat": 18.7663, "lon": 99.2421, "Link": "https://faceticket.net/"
     }
 ]
 
-# --- DATA: REGULAR MARKETS & ARTISAN SPOTS ---
+# --- 2. DATA: REGULAR & ARTISAN MARKETS (All Artisan Markets Kept) ---
 regular_markets = [
-    {"Name_CN": "椰林市集", "Name_EN": "Coconut Market", "Day": [5, 6], "lat": 18.8254, "lon": 99.0133, "Link": "https://www.facebook.com/kadmaprao/"},
-    {"Name_CN": "雨树市集", "Name_EN": "Chamcha Market", "Day": [5, 6], "lat": 18.7758, "lon": 99.0712, "Link": "https://www.facebook.com/ChamchaMarket/"},
-    {"Name_CN": "Jing Jai 市集", "Name_EN": "Jing Jai Weekend Market", "Day": [5, 6], "lat": 18.8073, "lon": 98.9955, "Link": "https://www.facebook.com/jjmarketchiangmai/"},
-    {"Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street", "Day": 6, "lat": 18.7877, "lon": 98.9933, "Link": "https://maps.app.goo.gl/tha-phae-gate"},
+    {
+        "Name_CN": "椰林市集", "Name_EN": "Coconut Market (Kad Bapao)",
+        "Day": [5, 6], "lat": 18.8254, "lon": 99.0133, "Link": "https://www.facebook.com/kadmaprao/",
+        "Brief_CN": "椰林中的绝美市集，适合拍照和地道小吃。", "Brief_EN": "Picturesque market in a coconut grove. Photogenic spots."
+    },
+    {
+        "Name_CN": "雨树市集", "Name_EN": "Chamcha Market (ฉำฉา)",
+        "Day": [5, 6], "lat": 18.7758, "lon": 99.0712, "Link": "https://www.facebook.com/ChamchaMarket/",
+        "Brief_CN": "桑甘烹区艺术地标，主打精致手作和蓝染。", "Brief_EN": "Artisan community market under giant rain trees."
+    },
+    {
+        "Name_CN": "竹林亲子市集", "Name_EN": "Bamboo Family Market",
+        "Day": [5, 6], "lat": 18.7885, "lon": 99.0825, "Link": "https://www.facebook.com/BambooFamilyMarket/",
+        "Brief_CN": "温馨的竹林社区市集，亲子活动丰富。", "Brief_EN": "Eco-friendly community market in a bamboo forest."
+    },
+    {
+        "Name_CN": "Jing Jai 周末市集", "Name_EN": "Jing Jai Weekend Market",
+        "Day": [5, 6], "lat": 18.8073, "lon": 98.9955, "Link": "https://www.facebook.com/jjmarketchiangmai/",
+        "Brief_CN": "清迈最有格调的市集，有机咖啡和高质感手作。", "Brief_EN": "Upscale weekend market for organic food and coffee."
+    },
+    {
+        "Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street",
+        "Day": 6, "lat": 18.7877, "lon": 98.9933, "Link": "http://maps.google.com/?q=Sunday+Walking+Street+Chiang+Mai",
+        "Brief_CN": "全清迈最大的夜市，贯穿老城中心。", "Brief_EN": "Chiang Mai's largest and most famous night market."
+    },
+    {
+        "Name_CN": "周六步行街", "Name_EN": "Saturday Walking Street",
+        "Day": 5, "lat": 18.7812, "lon": 98.9863, "Link": "http://maps.google.com/?q=Saturday+Walking+Street+Chiang+Mai",
+        "Brief_CN": "南门瓦莱路银器街市集，小吃极其丰富。", "Brief_EN": "Famous for silver crafts on Wualai Road south of the city."
+    }
 ]
 
-# --- UI LOGIC ---
-st.sidebar.title("🗓️ Plan Your Trip")
-selected_date = st.sidebar.date_input("Select Date", datetime.now())
-view_mode = st.sidebar.radio("View Range", ["Single Day", "Full Week"])
+# --- 3. UI LOGIC ---
+st.sidebar.title("🗓️ Plan Your Trip / 行程计划")
+selected_date = st.sidebar.date_input("Select Date / 选择日期", datetime.now())
+view_mode = st.sidebar.radio("View Range / 查看范围", ["Single Day / 单日", "Full Week / 整周"])
 
 d_start = datetime.combine(selected_date, datetime.min.time())
 num_days = 1 if "Single" in view_mode else 7
@@ -44,50 +86,41 @@ date_range = [d_start + timedelta(days=i) for i in range(num_days)]
 
 final_list = []
 
-# 1. NAP Week Logic (Dec 5 - 11)
+# Logic for NAP Week (Dec 5 - 11 Every Year)
 is_nap_week = any(d.month == 12 and 5 <= d.day <= 11 for d in date_range)
 if is_nap_week:
     final_list.append({
-        "Name_CN": "⭐ NAP 宁曼艺术设计周",
-        "Name_EN": "⭐ NAP Art & Design Promenade",
+        "Name_CN": "⭐ NAP 宁曼艺术设计周", "Name_EN": "⭐ NAP Art & Design Promenade",
         "Brief_CN": "年度艺术盛会！宁曼路1巷封路，汇聚最顶尖的手作与设计。",
-        "Brief_EN": "Iconic annual festival at Nimman Soi 1. The best of Chiang Mai art & crafts.",
-        "Location_CN": "宁曼路 1 巷", "Location_EN": "Nimman Soi 1",
-        "lat": 18.8001, "lon": 98.9684, "Link": "https://www.facebook.com/nimmansoi1/"
+        "Brief_EN": "Iconic annual festival at Nimman Soi 1. The best of Chiang Mai art & design.",
+        "Location_EN": "Nimman Soi 1", "lat": 18.8001, "lon": 98.9684, "Link": "https://www.facebook.com/nimmansoi1/"
     })
 
-# 2. Add Festivals & Regular Markets
+# Filter Festivals
 for ev in festivals:
     if any(ev["Start"] <= d <= ev["End"] for d in date_range):
         final_list.append(ev)
 
+# Filter Regular Markets
 for m in regular_markets:
     active_days = m["Day"] if isinstance(m["Day"], list) else [m["Day"]]
     if any(d.weekday() in active_days for d in date_range):
         final_list.append(m)
 
-# --- MAIN DISPLAY ---
-st.title("Elephant Chiang Mai Explorer 🐘")
+# --- 4. MAIN DISPLAY ---
+st.title("Elephant Chiang Mai Explorer 🐘 清迈探索者")
 
-# --- TRAVEL TIPS SECTION ---
+# Travel Tips Section (Kept as requested)
 with st.expander("🚀 Essential Travel Tips / 出行必备贴士"):
     t1, t2 = st.columns(2)
     with t1:
-        st.markdown("""
-        **English Tips:**
-        * 🚕 **Getting Around:** Download **Grab** or **Maxim** for fair-priced taxis. For a local experience, hop on a **Songthaew** (Red Truck) - usually 30 THB per person within the city.
-        * 🌡️ **Weather:** Dec/Jan is 'Cool Season'. Mornings are 16°C (60°F), afternoons are 30°C (86°F). **Dress in layers!**
-        * 👟 **Artisan Markets:** Markets like Chamcha and Coconut are best visited before 11:00 AM to avoid the heat and crowds.
-        """)
+        st.markdown("**English:**\n* 🚕 **Grab/Maxim** are best for cars.\n* 🌡️ **16°C - 30°C** (Dress in layers).\n* 👟 **Artisan Markets** close around 3 PM.")
     with t2:
-        st.markdown("""
-        **中文贴士:**
-        * 🚕 **交通:** 建议下载 **Grab** 或 **Maxim** 叫车。市内可以坐 **双条车 (Red Truck)**，古城内通常每人 30 泰铢。
-        * 🌡️ **天气:** 12月/1月是凉季。清晨约 16°C，午后约 30°C。**请采用洋葱式穿法！**
-        * 👟 **文创市集:** 像雨树市集和椰林市集建议在上午 11 点前到达，拍照更好看且不热。
-        """)
+        st.markdown("**中文:**\n* 🚕 推荐下载 **Grab** 或 **Maxim**。\n* 🌡️ **16°C - 30°C** (采用洋葱式穿法)。\n* 👟 **文创市集** 通常下午3点闭市。")
 
 st.markdown("---")
+date_str = d_start.strftime('%B %d, %Y') if "Single" in view_mode else f"Week of {d_start.strftime('%b %d')}"
+st.subheader(f"📅 {date_str}")
 
 if final_list:
     for item in final_list:
@@ -96,9 +129,10 @@ if final_list:
             st.write(item.get('Brief_CN', ''))
             
             c1, c2 = st.columns(2)
-            with c1: st.link_button("🌐 Info", item['Link'])
+            with c1: st.link_button("🌐 Info / 详情", item['Link'])
             with c2: 
+                # Real POI Navigation Link
                 maps_url = f"https://www.google.com/maps/search/?api=1&query={item['lat']},{item['lon']}"
-                st.link_button("📍 Navigation", maps_url)
+                st.link_button("📍 Navigation / 导航", maps_url)
 else:
-    st.info("No major events today.")
+    st.info("No major events found for this selection. / 所选时段暂无主要活动。")
