@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 # Page Config
 st.set_page_config(page_title="Chiang Mai Explorer", page_icon="🐘", layout="wide")
 
-# --- 1. DATA: SPECIAL & SEASONAL EVENTS (All Original Events Kept) ---
+# --- 1. DATA: SPECIAL & SEASONAL EVENTS ---
 festivals = [
     {
         "Name_CN": "魅力清迈花卉节", "Name_EN": "Charming Chiang Mai Flower Fest",
@@ -41,12 +41,17 @@ festivals = [
     }
 ]
 
-# --- 2. DATA: REGULAR & ARTISAN MARKETS (All Artisan Markets Kept) ---
+# --- 2. DATA: REGULAR & DAILY MARKETS ---
 regular_markets = [
+    {
+        "Name_CN": "清迈观光夜市 (每日)", "Name_EN": "Night Bazaar & Anusarn Market (Daily)",
+        "Day": "Daily", "lat": 18.7850, "lon": 99.0001, "Link": "https://maps.app.goo.gl/LQc9jvvNSbGNGE7X90",
+        "Brief_CN": "长康路上的每日夜市，包含阿努善市场，适合晚餐、按摩和海鲜。", "Brief_EN": "Iconic daily market on Chang Klan Road. Great for food, massage, and souvenirs."
+    },
     {
         "Name_CN": "椰林市集", "Name_EN": "Coconut Market (Kad Bapao)",
         "Day": [5, 6], "lat": 18.8254, "lon": 99.0133, "Link": "https://www.facebook.com/kadmaprao/",
-        "Brief_CN": "椰林中的绝美市集，适合拍照和地道小吃。", "Brief_EN": "Picturesque market in a coconut grove. Photogenic spots."
+        "Brief_CN": "椰林中的绝美市集，适合拍照和地道小吃。", "Brief_EN": "Picturesque market in a coconut grove. Very photogenic."
     },
     {
         "Name_CN": "雨树市集", "Name_EN": "Chamcha Market (ฉำฉา)",
@@ -86,7 +91,7 @@ date_range = [d_start + timedelta(days=i) for i in range(num_days)]
 
 final_list = []
 
-# Logic for NAP Week (Dec 5 - 11 Every Year)
+# NAP Week Logic (Dec 5 - 11)
 is_nap_week = any(d.month == 12 and 5 <= d.day <= 11 for d in date_range)
 if is_nap_week:
     final_list.append({
@@ -101,24 +106,19 @@ for ev in festivals:
     if any(ev["Start"] <= d <= ev["End"] for d in date_range):
         final_list.append(ev)
 
-# Filter Regular Markets
+# Filter Regular & Daily Markets
 for m in regular_markets:
-    active_days = m["Day"] if isinstance(m["Day"], list) else [m["Day"]]
-    if any(d.weekday() in active_days for d in date_range):
+    if m["Day"] == "Daily":
         final_list.append(m)
+    else:
+        active_days = m["Day"] if isinstance(m["Day"], list) else [m["Day"]]
+        if any(d.weekday() in active_days for d in date_range):
+            final_list.append(m)
 
 # --- 4. MAIN DISPLAY ---
-st.title("Elephant Chiang Mai Explorer 🐘 清迈探索者")
-
-# Travel Tips Section (Kept as requested)
-with st.expander("🚀 Essential Travel Tips / 出行必备贴士"):
-    t1, t2 = st.columns(2)
-    with t1:
-        st.markdown("**English:**\n* 🚕 **Grab/Maxim** are best for cars.\n* 🌡️ **16°C - 30°C** (Dress in layers).\n* 👟 **Artisan Markets** close around 3 PM.")
-    with t2:
-        st.markdown("**中文:**\n* 🚕 推荐下载 **Grab** 或 **Maxim**。\n* 🌡️ **16°C - 30°C** (采用洋葱式穿法)。\n* 👟 **文创市集** 通常下午3点闭市。")
-
+st.title("Elephant Chiang Mai Explorer 🐘")
 st.markdown("---")
+
 date_str = d_start.strftime('%B %d, %Y') if "Single" in view_mode else f"Week of {d_start.strftime('%b %d')}"
 st.subheader(f"📅 {date_str}")
 
@@ -131,8 +131,16 @@ if final_list:
             c1, c2 = st.columns(2)
             with c1: st.link_button("🌐 Info / 详情", item['Link'])
             with c2: 
-                # Real POI Navigation Link
                 maps_url = f"https://www.google.com/maps/search/?api=1&query={item['lat']},{item['lon']}"
                 st.link_button("📍 Navigation / 导航", maps_url)
 else:
-    st.info("No major events found for this selection. / 所选时段暂无主要活动。")
+    st.info("No major events found for this selection.")
+
+# --- 5. TRAVEL TIPS (Moved to Bottom) ---
+st.markdown("---")
+with st.expander("🚀 Essential Travel Tips / 出行必备贴士"):
+    t1, t2 = st.columns(2)
+    with t1:
+        st.markdown("**English:**\n* 🚕 **Grab/Maxim** apps are recommended for fair pricing.\n* 🌡️ **Weather:** 16°C mornings / 30°C afternoons. Dress in layers.\n* 💰 **Cash:** Markets still prefer cash; cafes take QR.")
+    with t2:
+        st.markdown("**中文:**\n* 🚕 推荐使用 **Grab** 或 **Maxim** 叫车。\n* 🌡️ **天气:** 早晚凉（16°C），中午热（30°C），建议洋葱式穿法。\n* 💰 **支付:** 市集主要使用现金，咖啡店支持扫码。")
