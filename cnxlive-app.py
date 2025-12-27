@@ -5,55 +5,54 @@ from datetime import datetime, timedelta
 # Page Config
 st.set_page_config(page_title="Chiang Mai Explorer", page_icon="🐘", layout="wide")
 
-# --- 1. DATA: SPECIAL & SEASONAL EVENTS ---
+# --- 1. DATA: SPECIAL & SEASONAL EVENTS (所有特殊活动在此) ---
 festivals = [
     {
-        "Name_CN": "清迈官方跨年庆典 (纳瓦拉桥/塔佩门)", "Name_EN": "Chiang Mai Countdown 2026 (Official)",
+        "Name_CN": "清迈官方跨年庆典 (纳瓦拉桥)", "Name_EN": "Chiang Mai Countdown 2026",
         "Start": datetime(2025, 12, 28), "End": datetime(2026, 1, 1),
-        "Brief_CN": "市政府主办。28日起塔佩门有音乐会；31日跨年夜以纳瓦拉桥为中心，有大型烟火秀和倒数仪式。",
-        "Brief_EN": "Official city countdown. Concerts at Tha Phae Gate from 28th. Grand fireworks & countdown at Nawarat Bridge on 31st.",
-        "Location_CN": "纳瓦拉桥 & 塔佩门广场", "Location_EN": "Nawarat Bridge & Tha Phae Gate",
+        "Brief_CN": "市政府主办。跨年夜以纳瓦拉桥为中心，有大型烟火秀和倒数仪式。",
+        "Brief_EN": "Official city countdown with grand fireworks at Nawarat Bridge.",
         "lat": 18.7879, "lon": 99.0045, "Link": "https://www.facebook.com/cmmayor"
     },
     {
-        "Name_CN": "魅力清迈花卉节", "Name_EN": "Charming Chiang Mai Flower Fest",
-        "Start": datetime(2025, 11, 29), "End": datetime(2026, 1, 5),
-        "Brief_CN": "大规模灯光雕塑、音乐喷泉秀。清迈年末最盛大的灯光盛宴。",
-        "Brief_EN": "Massive light sculptures and musical fountain shows at the PAO Park.",
-        "Location_CN": "清迈省政府中心 (PAO Park)", "Location_EN": "Chiang Mai PAO Park",
-        "lat": 18.8288, "lon": 98.9772, "Link": "https://www.facebook.com/charmingchiangmaiflowerfestival"
+        "Name_CN": "NAP 文创艺术周", "Name_EN": "Nimman Art & Design Promenade (NAP)",
+        "Start": datetime(2025, 12, 5), "End": datetime(2025, 12, 11),
+        "Brief_CN": "宁曼路5巷最著名的文创艺术街头市集，汇集顶尖设计师作品。",
+        "Brief_EN": "Famous art & design street fair at Nimman Soi 5.",
+        "lat": 18.7995, "lon": 98.9680, "Link": "https://www.facebook.com/nimmansoi5"
     },
     {
-        "Name_CN": "皇家花园花卉节", "Name_EN": "Flora Festival (Royal Park Rajapruek)",
-        "Start": datetime(2025, 11, 1), "End": datetime(2026, 2, 28),
-        "Brief_CN": "年度盛大花展，包含兰花园、空中步道和数百万株冬季花卉。",
-        "Brief_EN": "Grand annual botanical garden festival featuring winter flower displays.",
-        "Location_CN": "拉查帕皇家花园", "Location_EN": "Royal Park Rajapruek",
-        "lat": 18.7480, "lon": 98.9249, "Link": "https://www.royalparkrajapruek.org/"
+        "Name_CN": "Ping Fai 烤火节 (圣诞村)", "Name_EN": "Ping Fai Festival",
+        "Start": datetime(2025, 12, 13), "End": datetime(2025, 12, 25),
+        "Brief_CN": "宁曼区圣诞活动：围炉烤棉花糖、文创摊位、巨型圣诞树。",
+        "Brief_EN": "Christmas vibe in Nimman with marshmallow roasting and crafts.",
+        "lat": 18.8001, "lon": 98.9684, "Link": "https://www.facebook.com/pro.onenimman/"
+    },
+    {
+        "Name_CN": "坤昌阡樱花季", "Name_EN": "Khun Chang Kian Sakura",
+        "Start": datetime(2025, 12, 25), "End": datetime(2026, 1, 31),
+        "Brief_CN": "清迈最近的樱花观赏点。路窄，建议换乘双条车上山。",
+        "Brief_EN": "Closest Himalayan Cherry blossom spot. Use Songthaew to climb.",
+        "lat": 18.8394, "lon": 98.8974, "Link": "https://maps.app.goo.gl/uX3U6pWdF7Y6p7N78"
+    },
+    {
+        "Name_CN": "坤旺农业中心樱花隧道", "Name_EN": "Khun Wang Sakura Tunnel",
+        "Start": datetime(2025, 12, 30), "End": datetime(2026, 2, 5),
+        "Brief_CN": "清迈最震撼的樱花隧道。位于茵他侬山，花期通常在1月中上旬达到顶峰。",
+        "Brief_EN": "The most stunning Sakura Tunnel in Thailand, located at Doi Inthanon.",
+        "lat": 18.6291, "lon": 98.5061, "Link": "https://maps.app.goo.gl/P8Z8888888888"
     }
 ]
 
-# --- 2. DATA: REGULAR & DAILY MARKETS ---
+# --- 2. DATA: REGULAR MARKETS (所有常规市集在此) ---
 regular_markets = [
-    {
-        "Name_CN": "清迈观光夜市 (每日)", "Name_EN": "Night Bazaar & Anusarn (Daily)",
-        "Day": "Daily", "lat": 18.7850, "lon": 99.0001, "Link": "http://google.com/maps?q=18.7850,99.0001",
-        "Brief_CN": "长康路上的每日夜市，包含阿努善市场，适合晚餐、按摩和海鲜。", 
-        "Brief_EN": "Iconic daily market on Chang Klan Road. Best for food and souvenirs."
-    },
-    {
-        "Name_CN": "Jing Jai 周末市集", "Name_EN": "Jing Jai Weekend Market",
-        "Day": [5, 6], "lat": 18.8073, "lon": 98.9955, "Link": "https://www.facebook.com/jjmarketchiangmai/",
-        "Brief_CN": "清迈最有格调的市集，有机咖啡和高质感手作。", "Brief_EN": "Upscale weekend market for organic food and coffee."
-    },
-    {
-        "Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street",
-        "Day": 6, "lat": 18.7877, "lon": 98.9933, "Link": "http://google.com/maps?q=18.7877,98.9933",
-        "Brief_CN": "全清迈最大的夜市，贯穿老城中心。", "Brief_EN": "Chiang Mai's largest and most famous night market."
-    }
+    {"Name_CN": "Jing Jai 周末市集", "Name_EN": "Jing Jai Market", "Day": [5, 6], "lat": 18.8073, "lon": 98.9955, "Link": "https://www.facebook.com/jjmarketchiangmai/"},
+    {"Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street", "Day": 6, "lat": 18.7877, "lon": 98.9933, "Link": "https://maps.app.goo.gl/SndyMarket"},
+    {"Name_CN": "椰林集市", "Name_EN": "Coconut Market", "Day": [5, 6], "lat": 18.8378, "lon": 99.0335, "Link": "https://maps.app.goo.gl/CocoMarket"},
+    {"Name_CN": "雨树集市", "Name_EN": "Chamcha Market", "Day": [5, 6], "lat": 18.7778, "lon": 99.0435, "Link": "https://maps.app.goo.gl/ChamchaMarket"}
 ]
 
-# --- 3. UI LOGIC ---
+# --- 3. UI & DATE LOGIC ---
 st.sidebar.title("🗓️ Plan Your Trip")
 selected_date = st.sidebar.date_input("Select Date", datetime.now())
 view_mode = st.sidebar.radio("View Range", ["Single Day", "Full Week"])
@@ -62,6 +61,36 @@ d_start = datetime.combine(selected_date, datetime.min.time())
 num_days = 1 if "Single" in view_mode else 7
 date_range = [d_start + timedelta(days=i) for i in range(num_days)]
 
+# --- 4. DYNAMIC TRAVEL TIPS (动态提示引擎) ---
+st.title("Elephant Chiang Mai Explorer 🐘")
+st.markdown("---")
+
+is_countdown = any(d.month == 12 and d.day == 31 for d in date_range)
+is_weekend = any(d.weekday() in [5, 6] for d in date_range)
+is_inthanon = any(item['Name_CN'] == "坤旺农业中心樱花隧道" for item in festivals) and (selected_date.month == 1)
+
+with st.expander("🚀 Essential Travel Tips / 出行贴士", expanded=True):
+    c1, c2 = st.columns(2)
+    with c1:
+        if is_countdown:
+            st.error("🎆 **NYE Alert:** Road closures at Nawarat Bridge from 6 PM.")
+        elif is_inthanon:
+            st.warning("🏔️ **Inthanon Tip:** Khun Wang is 2.5h from city. Start early (5 AM)!")
+        elif is_weekend:
+            st.info("🛍️ **Market Tip:** Sunday walking street is most crowded 7-9 PM.")
+        else:
+            st.success("🛵 **Weekday:** Less traffic, perfect for Doi Suthep.")
+    with c2:
+        if is_countdown:
+            st.markdown("**跨年提醒:** 纳瓦拉桥周边18:00起封路，跨年用车极难预约，建议步行。")
+        elif is_inthanon:
+            st.markdown("**观樱提醒:** 坤旺在茵他侬山深处，建议清晨5点出发以避开人流和浓雾。")
+        elif is_weekend:
+            st.markdown("**周末贴士:** 周日夜市建议下午5点入场；Jing Jai建议上午9点前。")
+        else:
+            st.markdown("**平日贴士:** 交通顺畅，是前往素贴山或宁曼路咖啡馆的好时机。")
+
+# --- 5. MAIN DISPLAY ---
 final_list = []
 for ev in festivals:
     if any(ev["Start"] <= d <= ev["End"] for d in date_range):
@@ -71,71 +100,12 @@ for m in regular_markets:
     if m["Day"] == "Daily" or any(d.weekday() in (m["Day"] if isinstance(m["Day"], list) else [m["Day"]]) for d in date_range):
         final_list.append(m)
 
-# --- 4. MAIN DISPLAY ---
-st.title("Elephant Chiang Mai Explorer 🐘")
-st.markdown("---")
-
-date_str = d_start.strftime('%B %d, %Y')
-st.subheader(f"📅 {date_str}")
-
+st.subheader(f"📅 {d_start.strftime('%B %d, %Y')}")
 if final_list:
     for item in final_list:
         with st.expander(f"📍 {item['Name_EN']} | {item['Name_CN']}"):
             st.write(item.get('Brief_EN', ''))
             st.write(item.get('Brief_CN', ''))
-            c1, c2 = st.columns(2)
-            with c1: st.link_button("🌐 Info", item['Link'])
-            with c2: 
-                maps_url = f"https://www.google.com/maps/search/?api=1&query={item['lat']},{item['lon']}"
-                st.link_button("📍 Navigation", maps_url)
+            st.link_button("🌐 Navigation / Info", item.get('Link', '#'))
 else:
     st.info("No major events found for this selection.")
-
-# --- 5. FIXED DYNAMIC TRAVEL TIPS ---
-st.markdown("---")
-with st.expander("🚀 Essential Travel Tips / 出行贴士", expanded=True):
-    # Logic based on selected_date
-    is_countdown = (selected_date.month == 12 and selected_date.day == 31)
-    is_weekend = (selected_date.weekday() in [5, 6])
-    
-    t1, t2 = st.columns(2)
-    
-    with t1:
-        if is_countdown:
-            st.markdown("""
-**Countdown Special:**
-* 🎆 **Nawarat Bridge:** Best for midnight fireworks.
-* 🚶 **Closures:** Roads close around 6 PM. Walking is recommended!
-            """)
-        elif is_weekend:
-            st.markdown("""
-**Weekend Tip:**
-* 🛍️ **Markets:** Sunday Walking Street starts at 5 PM. 
-* ☕ **Jing Jai:** Go before 9 AM to avoid the biggest crowds.
-            """)
-        else:
-            st.markdown("""
-**Weekday Tip:**
-* 🛵 **Traffic:** Lighter traffic! Perfect for visiting Doi Suthep.
-* ☕ **Cafes:** Enjoy Nimman cafes without the weekend wait times.
-            """)
-
-    with t2:
-        if is_countdown:
-            st.markdown("""
-**跨年特别提醒:**
-* 🎆 **纳瓦拉桥:** 观赏跨年烟火的最佳地点。
-* 🚶 **封路状况:** 12月31日晚建议步行，用车极其困难。
-            """)
-        elif is_weekend:
-            st.markdown("""
-**周末贴士:**
-* 🛍️ **市集:** 周日夜市下午5点开始，越晚人越多。
-* ☕ **Jing Jai:** 建议上午9点前到达，体验感最佳。
-            """)
-        else:
-            st.markdown("""
-**平日贴士:**
-* 🛵 **交通:** 拥堵较少，适合去远郊或者素贴山。
-* ☕ **宁曼路:** 工作日去网红咖啡店基本不需要排队。
-            """)
