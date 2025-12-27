@@ -8,7 +8,8 @@ st.set_page_config(page_title="Chiang Mai Explorer", page_icon="🐘", layout="w
 # --- 1. DATA: SPECIAL & SEASONAL EVENTS ---
 festivals = [
     {
-        "Name_CN": "清迈官方跨年庆典 (纳瓦拉桥/塔佩门)", "Name_EN": "Chiang Mai Countdown 2026 (Official)",
+        "Name_CN": "清迈官方跨年庆典 (纳瓦拉桥/塔佩门)", 
+        "Name_EN": "Chiang Mai Countdown 2026 (Official)",
         "Start": datetime(2025, 12, 28), "End": datetime(2026, 1, 1),
         "Brief_CN": "市政府主办。28日起塔佩门有音乐会；31日跨年夜以纳瓦拉桥为中心，有大型烟火秀和倒数仪式。",
         "Brief_EN": "Official city countdown. Concerts at Tha Phae Gate from 28th. Grand fireworks & countdown at Nawarat Bridge on 31st.",
@@ -45,7 +46,7 @@ festivals = [
 regular_markets = [
     {
         "Name_CN": "清迈观光夜市 (每日)", "Name_EN": "Night Bazaar & Anusarn (Daily)",
-        "Day": "Daily", "lat": 18.7850, "lon": 99.0001, "Link": "https://maps.app.goo.gl/Yy6m6",
+        "Day": "Daily", "lat": 18.7850, "lon": 99.0001, "Link": "https://maps.app.goo.gl/Fk9zG7DkF2R6",
         "Brief_CN": "长康路上的每日夜市，包含阿努善市场，适合晚餐、按摩和海鲜。", 
         "Brief_EN": "Iconic daily market on Chang Klan Road. Best for food and souvenirs."
     },
@@ -56,7 +57,7 @@ regular_markets = [
     },
     {
         "Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street",
-        "Day": 6, "lat": 18.7877, "lon": 98.9933, "Link": "https://maps.app.goo.gl/18",
+        "Day": 6, "lat": 18.7877, "lon": 98.9933, "Link": "https://maps.app.goo.gl/H4m3T",
         "Brief_CN": "全清迈最大的夜市，贯穿老城中心。", "Brief_EN": "Chiang Mai's largest and most famous night market."
     }
 ]
@@ -111,6 +112,16 @@ st.markdown("---")
 with st.expander("🚀 Essential Travel Tips / 出行贴士"):
     t1, t2 = st.columns(2)
     with t1:
-        st.markdown("**Countdown Special:**\n* 🎆 **Nawarat Bridge:** Best for midnight fireworks over the river.\n* 🚶 **Closures:** Roads around the river and Tha Phae Gate will be pedestrian-only on Dec 31st.\n* 🚕 **Transport:** Book Grab/Maxim early; expect high demand.")
+        st.markdown("""
+**Countdown Special:**
+* 🎆 **Nawarat Bridge:** Best for midnight fireworks over the river.
+* 🚶 **Closures:** Roads around the river and Tha Phae Gate will be pedestrian-only on Dec 31st.
+* 🚕 **Transport:** Book Grab/Maxim early; expect high demand.
+        """)
     with t2:
-        st.markdown("**跨年特别提醒:**\n* 🎆 **纳瓦拉桥:** 观赏河面跨年烟火的最佳地点。\n* 🚶 **封路状况:** 12月31日晚，河岸和塔佩门周边将禁止车辆通行。\n* 🚕 **交通:** 跨年夜用车需求极大，建议提前预约或步行。")
+        st.markdown("""
+**跨年特别提醒:**
+* 🎆 **纳瓦拉桥:** 观赏河面跨年烟火的最佳地点。
+* 🚶 **封路状况:** 12月31日晚，河岸和塔佩门周边将禁止车辆通行。
+* 🚕 **交通:** 跨年夜用车需求极大，建议提前预约或步行。
+        """)
