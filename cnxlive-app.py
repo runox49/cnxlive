@@ -33,23 +33,24 @@ festivals = [
         "Start": datetime(2025, 12, 25), "End": datetime(2026, 1, 31),
         "Brief_CN": "离城最近的樱花点。路窄，建议在素贴寺换乘双条车。",
         "Brief_EN": "Closest Sakura spot to city. Narrow road, Songthaew recommended.",
-        "lat": 18.8394, "lon": 98.8974, "Link": "https://maps.app.goo.gl/rD6A28n4z3PjE6V9A"
+        "lat": 18.8394, "lon": 98.8974, "Link": "http://google.com/maps?q=18.8394,98.8974"
     },
     {
         "Name_CN": "坤旺农业中心樱花隧道", "Name_EN": "Khun Wang Sakura Tunnel",
         "Start": datetime(2025, 12, 30), "End": datetime(2026, 2, 5),
         "Brief_CN": "最美的樱花隧道。位于茵他侬山，1月中旬是最佳观赏期。",
         "Brief_EN": "Iconic Sakura Tunnel at Doi Inthanon. Peak bloom in mid-Jan.",
-        "lat": 18.6291, "lon": 98.5061, "Link": "https://maps.app.goo.gl/9Q6Y6xW7Z6Z6Z6Z6Z"
+        "lat": 18.6291, "lon": 98.5061, "Link": "http://google.com/maps?q=18.6291,98.5061"
     }
 ]
 
 # --- 2. DATA: REGULAR MARKETS ---
 regular_markets = [
+    {"Name_CN": "周六夜市 (瓦莱路)", "Name_EN": "Saturday Walking Street (Wualai)", "Day": 5, "lat": 18.7783, "lon": 98.9880, "Link": "http://google.com/maps?q=18.7783,98.9880"},
+    {"Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street", "Day": 6, "lat": 18.7877, "lon": 98.9933, "Link": "http://google.com/maps?q=18.7877,98.9933"},
     {"Name_CN": "Jing Jai 周末市集", "Name_EN": "Jing Jai Market", "Day": [5, 6], "lat": 18.8073, "lon": 98.9955, "Link": "https://www.facebook.com/jjmarketchiangmai/"},
-    {"Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street", "Day": 6, "lat": 18.7877, "lon": 98.9933, "Link": "https://maps.app.goo.gl/ SundayWalkingStreet"},
-    {"Name_CN": "椰林集市", "Name_EN": "Coconut Market", "Day": [5, 6], "lat": 18.8378, "lon": 99.0335, "Link": "https://maps.app.goo.gl/CoconutMarket"},
-    {"Name_CN": "雨树集市", "Name_EN": "Chamcha Market", "Day": [5, 6], "lat": 18.7778, "lon": 99.0435, "Link": "https://maps.app.goo.gl/ChamchaMarket"}
+    {"Name_CN": "椰林集市", "Name_EN": "Coconut Market", "Day": [5, 6], "lat": 18.8378, "lon": 99.0335, "Link": "http://google.com/maps?q=18.8378,99.0335"},
+    {"Name_CN": "雨树集市", "Name_EN": "Chamcha Market", "Day": [5, 6], "lat": 18.7778, "lon": 99.0435, "Link": "http://google.com/maps?q=18.7778,99.0435"}
 ]
 
 # --- 3. UI & DATE LOGIC ---
@@ -61,44 +62,20 @@ d_start = datetime.combine(selected_date, datetime.min.time())
 num_days = 1 if "Single" in view_mode else 7
 date_range = [d_start + timedelta(days=i) for i in range(num_days)]
 
-# --- 4. DYNAMIC TRAVEL TIPS ---
+# --- 4. MAIN DISPLAY (主要内容区) ---
 st.title("Elephant Chiang Mai Explorer 🐘")
 st.markdown("---")
 
-is_countdown = any(d.month == 12 and d.day == 31 for d in date_range)
-is_weekend = any(d.weekday() in [5, 6] for d in date_range)
-# 特别为坤旺增加判断逻辑
-is_inthanon_season = any(d.month == 1 for d in date_range)
-
-with st.expander("🚀 Essential Travel Tips / 出行贴士", expanded=True):
-    c1, c2 = st.columns(2)
-    with c1:
-        if is_countdown:
-            st.error("🎆 **NYE Alert:** Road closures at Nawarat Bridge from 6 PM.")
-        elif is_inthanon_season:
-            st.warning("🏔️ **Inthanon Tip:** Khun Wang is far (2.5h). Start at 5 AM!")
-        elif is_weekend:
-            st.info("🛍️ **Market Tip:** Go to Jing Jai before 9 AM for the best vibe.")
-        else:
-            st.success("🛵 **Weekday:** Perfect for Doi Suthep or cafe hopping.")
-    with c2:
-        if is_countdown:
-            st.markdown("**跨年提醒:** 纳瓦拉桥周边封路，跨年夜用车极难预约。")
-        elif is_inthanon_season:
-            st.markdown("**观樱提醒:** 坤旺在茵他侬山深处，清晨出发可避开拥堵和浓雾。")
-        elif is_weekend:
-            st.markdown("**周末贴士:** 周日夜市下午5点入场；Jing Jai越早越好。")
-        else:
-            st.markdown("**平日贴士:** 避开高峰期，你可以独享宁曼路的网红咖啡馆。")
-
-# --- 5. MAIN DISPLAY ---
 final_list = []
+# 筛选特殊活动
 for ev in festivals:
     if any(ev["Start"] <= d <= ev["End"] for d in date_range):
         final_list.append(ev)
 
+# 筛选常规市集
 for m in regular_markets:
-    if m["Day"] == "Daily" or any(d.weekday() in (m["Day"] if isinstance(m["Day"], list) else [m["Day"]]) for d in date_range):
+    active_days = m["Day"] if isinstance(m["Day"], list) else [m["Day"]]
+    if any(d.weekday() in active_days for d in date_range):
         final_list.append(m)
 
 st.subheader(f"📅 {d_start.strftime('%B %d, %Y')}")
@@ -110,3 +87,30 @@ if final_list:
             st.link_button("🌐 Navigation / Info", item.get('Link', '#'))
 else:
     st.info("No major events found for this selection.")
+
+# --- 5. TRAVEL TIPS (底部贴士区 - 动态更新) ---
+st.markdown("---")
+with st.expander("🚀 Essential Travel Tips / 出行贴士", expanded=True):
+    is_countdown = any(d.month == 12 and d.day == 31 for d in date_range)
+    is_sat = any(d.weekday() == 5 for d in date_range)
+    is_sun = any(d.weekday() == 6 for d in date_range)
+    
+    t1, t2 = st.columns(2)
+    with t1:
+        if is_countdown:
+            st.error("""**Countdown Alert:** Bridge area will be pedestrian-only. Grab/Maxim impossible to find after 10 PM.""")
+        elif is_sat:
+            st.info("""**Saturday Tip:** Wualai market is near the Silver Temple. The temple glows beautifully at night!""")
+        elif is_sun:
+            st.info("""**Sunday Tip:** The market is huge. If you get lost, head towards the Three Kings Monument.""")
+        else:
+            st.success("""**Weekday Tip:** Traffic is lighter. Good time for Monk's Trail hike.""")
+    with t2:
+        if is_countdown:
+            st.markdown("""**跨年提醒:** 跨年夜用车极难预约，纳瓦拉桥周边封路，建议步行。""")
+        elif is_sat:
+            st.markdown("""**周六贴士:** 瓦莱路夜市离银庙很近，建议顺便参观夜晚灯光下的银庙。""")
+        elif is_sun:
+            st.markdown("""**周日贴士:** 步行街非常大，如果走散了可以约在三王纪念碑集合。""")
+        else:
+            st.markdown("""**平日贴士:** 交通顺畅，可以去素贴山的徒步小径（Monk's Trail）。""")
