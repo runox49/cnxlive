@@ -66,4 +66,74 @@ regular_markets = [
         "Link": "https://www.facebook.com/jjmarketchiangmai/"
     },
     {
-        "Name_CN": "椰林集市", "Name_EN": "Coconut Market", "Day": [5, 6], "lat": 18.8378, "lon":
+        "Name_CN": "椰林集市", "Name_EN": "Coconut Market", "Day": [5, 6], "lat": 18.8378, "lon": 99.0335, 
+        "Brief_CN": "位于翠绿椰林中的网红集市，非常适合周末拍照和品尝泰式小吃。", "Brief_EN": "Trendy market set in a coconut plantation, very photogenic.",
+        "Link": "https://www.google.com/search?q=Coconut+Market+Chiang+Mai"
+    }
+]
+
+# --- 3. UI & DATE LOGIC ---
+st.sidebar.title("🗓️ Plan Your Trip")
+selected_date = st.sidebar.date_input("Select Date", datetime.now())
+view_mode = st.sidebar.radio("View Range", ["Single Day", "Full Week"])
+
+d_start = datetime.combine(selected_date, datetime.min.time())
+num_days = 1 if "Single" in view_mode else 7
+date_range = [d_start + timedelta(days=i) for i in range(num_days)]
+
+# --- 4. TOP: WEATHER FORECAST (大小调整为正文一致) ---
+st.title("Elephant Chiang Mai Explorer 🐘")
+st.subheader("🌤️ 3-Day Weather Forecast / 天气预报")
+w_col1, w_col2, w_col3 = st.columns(3)
+with w_col1:
+    st.write("**Today / 今天**")
+    st.write("28°C / 16°C | ☀️ 晴朗")
+with w_col2:
+    st.write("**Tomorrow / 明天**")
+    st.write("29°C / 17°C | ☀️ 晴朗")
+with w_col3:
+    st.write("**Monday / 周一**")
+    st.write("27°C / 15°C | 🌤️ 多云转晴")
+st.markdown("---")
+
+# --- 5. MAIN DISPLAY ---
+final_list = []
+for ev in festivals:
+    if any(ev["Start"] <= d <= ev["End"] for d in date_range):
+        final_list.append(ev)
+for m in regular_markets:
+    if m["Day"] == "Daily" or any(d.weekday() in (m["Day"] if isinstance(m["Day"], list) else [m["Day"]]) for d in date_range):
+        final_list.append(m)
+
+st.subheader(f"📅 活动预览: {d_start.strftime('%Y-%m-%d')}")
+
+if final_list:
+    for item in final_list:
+        with st.expander(f"📍 {item['Name_EN']} | {item['Name_CN']}"):
+            st.write(f"**{item.get('Brief_EN', '')}**")
+            st.write(item.get('Brief_CN', ''))
+            st.write("---")
+            c1, c2 = st.columns(2)
+            with c1: 
+                st.link_button("🌐 Info", item['Link'])
+            with c2:
+                maps_url = f"https://www.google.com/maps/search/?api=1&query={item['lat']},{item['lon']}"
+                st.link_button("📍 Navigation", maps_url)
+else:
+    st.info("该日期范围内暂无大型活动建议。")
+
+# --- 6. TRAVEL TIPS (底部) ---
+st.markdown("---")
+with st.expander("🚀 Essential Travel Tips / 出行贴士", expanded=True):
+    is_countdown = any(d.month == 12 and d.day == 31 for d in date_range)
+    is_weekend = any(d.weekday() in [5, 6] for d in date_range)
+    
+    t1, t2 = st.columns(2)
+    with t1:
+        if is_countdown: st.error("🎆 **NYE Alert:** Road closures near Nawarat Bridge.")
+        elif is_weekend: st.info("🛍️ **Weekend Market:** Visit JJ Market or Chamcha before 9 AM.")
+        else: st.success("🛵 **Weekday:** Great time for Royal Park Rajapruek.")
+    with t2:
+        if is_countdown: st.markdown("**跨年提醒:** 纳瓦拉桥周边封路，建议步行。")
+        elif is_weekend: st.markdown("**周末贴士:** 雨树集市（Chamcha）周末氛围极好，建议早点去避开人流。")
+        else: st.markdown("**平日贴士:** 皇家花园或艺术村平日游览更清静。")
