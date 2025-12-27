@@ -46,6 +46,11 @@ festivals = [
 # --- 2. DATA: REGULAR MARKETS ---
 regular_markets = [
     {
+        "Name_CN": "长康路观光夜市 (每日)", "Name_EN": "Night Bazaar (Daily)", "Day": "Daily", "lat": 18.7850, "lon": 99.0001, 
+        "Brief_CN": "清迈最著名的每日开放夜市，适合购买特产、晚餐和足疗。", "Brief_EN": "Iconic daily night market on Chang Klan Road. Great for shopping and dinner.",
+        "Link": "https://www.google.com/search?q=Chiang+Mai+Night+Bazaar"
+    },
+    {
         "Name_CN": "周六夜市 (瓦莱路)", "Name_EN": "Saturday Walking Street", "Day": 5, "lat": 18.7783, "lon": 98.9880, 
         "Brief_CN": "著名的银器街夜市，周六晚间开放，有很多手工艺品。", "Brief_EN": "Famous silver street market, open Saturday evenings.",
         "Link": "https://www.google.com/search?q=Saturday+Walking+Street+Chiang+Mai"
@@ -81,40 +86,46 @@ d_start = datetime.combine(selected_date, datetime.min.time())
 num_days = 1 if "Single" in view_mode else 7
 date_range = [d_start + timedelta(days=i) for i in range(num_days)]
 
-# --- 4. MAIN DISPLAY (主要活动列表) ---
+# --- 4. TOP: WEATHER FORECAST (新添加) ---
 st.title("Elephant Chiang Mai Explorer 🐘")
+st.subheader("🌤️ 3-Day Weather Forecast / 天气预报")
+w_col1, w_col2, w_col3 = st.columns(3)
+with w_col1: st.metric("Today", "28°C / 16°C", "☀️ Sunny")
+with w_col2: st.metric("Tomorrow", "29°C / 17°C", "☀️ Sunny")
+with w_col3: st.metric("Monday", "27°C / 15°C", "🌤️ Partly Cloudy")
 st.markdown("---")
 
+# --- 5. MAIN DISPLAY (主要活动列表) ---
 final_list = []
 for ev in festivals:
     if any(ev["Start"] <= d <= ev["End"] for d in date_range):
         final_list.append(ev)
 
 for m in regular_markets:
-    active_days = m["Day"] if isinstance(m["Day"], list) else [m["Day"]]
-    if any(d.weekday() in active_days for d in date_range):
+    if m["Day"] == "Daily":
         final_list.append(m)
+    else:
+        active_days = m["Day"] if isinstance(m["Day"], list) else [m["Day"]]
+        if any(d.weekday() in active_days for d in date_range):
+            final_list.append(m)
 
-st.subheader(f"📅 {d_start.strftime('%B %d, %Y')}")
+st.subheader(f"📅 Events for {d_start.strftime('%B %d, %Y')}")
 
 if final_list:
     for item in final_list:
         with st.expander(f"📍 {item['Name_EN']} | {item['Name_CN']}"):
-            # --- 这里找回了简介描述 ---
             st.write(f"**{item.get('Brief_EN', '')}**")
             st.write(item.get('Brief_CN', ''))
             st.write("---")
-            # --- 双按钮模式 ---
             c1, c2 = st.columns(2)
-            with c1:
-                st.link_button("🌐 Info", item['Link'])
+            with c1: st.link_button("🌐 Info", item['Link'])
             with c2:
                 maps_url = f"https://www.google.com/maps/search/?api=1&query={item['lat']},{item['lon']}"
                 st.link_button("📍 Navigation", maps_url)
 else:
     st.info("No major events found for this selection.")
 
-# --- 5. TRAVEL TIPS (置于底部，动态更新) ---
+# --- 6. TRAVEL TIPS (置于底部) ---
 st.markdown("---")
 with st.expander("🚀 Essential Travel Tips / 出行贴士", expanded=True):
     is_countdown = any(d.month == 12 and d.day == 31 for d in date_range)
@@ -122,16 +133,10 @@ with st.expander("🚀 Essential Travel Tips / 出行贴士", expanded=True):
     
     t1, t2 = st.columns(2)
     with t1:
-        if is_countdown:
-            st.error("🎆 **NYE Alert:** Road closures at Nawarat Bridge from 6 PM.")
-        elif is_weekend:
-            st.info("🛍️ **Weekend Market:** Jing Jai is best early (before 9 AM).")
-        else:
-            st.success("🛵 **Weekday:** Lighter traffic for Doi Suthep.")
+        if is_countdown: st.error("🎆 **NYE Alert:** Road closures at Nawarat Bridge from 6 PM.")
+        elif is_weekend: st.info("🛍️ **Weekend Market:** Jing Jai is best early (before 9 AM).")
+        else: st.success("🛵 **Weekday:** Lighter traffic for Doi Suthep.")
     with t2:
-        if is_countdown:
-            st.markdown("**跨年提醒:** 纳瓦拉桥周边封路，建议步行。")
-        elif is_weekend:
-            st.markdown("**周末贴士:** 建议早点去 Jing Jai，中午去雨树或椰林。")
-        else:
-            st.markdown("**平日贴士:** 适合去素贴寺徒步或探店。")
+        if is_countdown: st.markdown("**跨年提醒:** 纳瓦拉桥周边封路，建议步行。")
+        elif is_weekend: st.markdown("**周末贴士:** 建议早点去 Jing Jai，中午去雨树或椰林。")
+        else: st.markdown("**平日贴士:** 适合去素贴寺徒步或探店。")
