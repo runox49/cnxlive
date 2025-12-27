@@ -57,4 +57,60 @@ regular_markets = [
     {
         "Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street",
         "Day": 6, "lat": 18.7877, "lon": 98.9933, "Link": "https://maps.app.goo.gl/18",
-        "Brief_CN": "全清
+        "Brief_CN": "全清迈最大的夜市，贯穿老城中心。", "Brief_EN": "Chiang Mai's largest and most famous night market."
+    }
+]
+
+# --- 3. UI LOGIC ---
+st.sidebar.title("🗓️ Plan Your Trip")
+selected_date = st.sidebar.date_input("Select Date", datetime.now())
+view_mode = st.sidebar.radio("View Range", ["Single Day", "Full Week"])
+
+d_start = datetime.combine(selected_date, datetime.min.time())
+num_days = 1 if "Single" in view_mode else 7
+date_range = [d_start + timedelta(days=i) for i in range(num_days)]
+
+final_list = []
+
+# Filter Festivals
+for ev in festivals:
+    if any(ev["Start"] <= d <= ev["End"] for d in date_range):
+        final_list.append(ev)
+
+# Filter Regular Markets
+for m in regular_markets:
+    if m["Day"] == "Daily":
+        final_list.append(m)
+    else:
+        active_days = m["Day"] if isinstance(m["Day"], list) else [m["Day"]]
+        if any(d.weekday() in active_days for d in date_range):
+            final_list.append(m)
+
+# --- 4. MAIN DISPLAY ---
+st.title("Elephant Chiang Mai Explorer 🐘")
+st.markdown("---")
+
+date_str = d_start.strftime('%B %d, %Y') if "Single" in view_mode else f"Week of {d_start.strftime('%b %d')}"
+st.subheader(f"📅 {date_str}")
+
+if final_list:
+    for item in final_list:
+        with st.expander(f"📍 {item['Name_EN']} | {item['Name_CN']}"):
+            st.write(item.get('Brief_EN', ''))
+            st.write(item.get('Brief_CN', ''))
+            c1, c2 = st.columns(2)
+            with c1: st.link_button("🌐 Info", item['Link'])
+            with c2: 
+                maps_url = f"https://www.google.com/maps?q={item['lat']},{item['lon']}"
+                st.link_button("📍 Navigation", maps_url)
+else:
+    st.info("No major events found for this selection.")
+
+# --- 5. TRAVEL TIPS (AT BOTTOM) ---
+st.markdown("---")
+with st.expander("🚀 Essential Travel Tips / 出行贴士"):
+    t1, t2 = st.columns(2)
+    with t1:
+        st.markdown("**Countdown Special:**\n* 🎆 **Nawarat Bridge:** Best for midnight fireworks over the river.\n* 🚶 **Closures:** Roads around the river and Tha Phae Gate will be pedestrian-only on Dec 31st.\n* 🚕 **Transport:** Book Grab/Maxim early; expect high demand.")
+    with t2:
+        st.markdown("**跨年特别提醒:**\n* 🎆 **纳瓦拉桥:** 观赏河面跨年烟火的最佳地点。\n* 🚶 **封路状况:** 12月31日晚，河岸和塔佩门周边将禁止车辆通行。\n* 🚕 **交通:** 跨年夜用车需求极大，建议提前预约或步行。")
