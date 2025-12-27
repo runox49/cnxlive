@@ -1,196 +1,139 @@
 import streamlit as st
 from datetime import datetime, timedelta
-import math
 
-# ---------------- Page Config ----------------
-st.set_page_config(
-    page_title="Chiang Mai Explorer",
-    page_icon="🐘",
-    layout="wide"
-)
+# Page Config
+st.set_page_config(page_title="Chiang Mai Explorer", page_icon="🐘", layout="wide")
 
-# ---------------- Basic Style ----------------
-st.markdown("""
-<style>
-.block-container {
-    padding-top: 1rem;
-    padding-bottom: 2rem;
-}
-</style>
-""", unsafe_allow_html=True)
-
-# ---------------- Language ----------------
-lang = st.radio("Language / 语言", ["中文", "English"], horizontal=True)
-
-def t(cn, en):
-    return cn if lang == "中文" else en
-
-# ---------------- Title ----------------
-st.title(t("🐘 清迈住客探索指南", "🐘 Chiang Mai Guest Explorer"))
-st.caption(
-    t(
-        "为住客准备的清迈活动、市集与周边推荐",
-        "A curated guide to events, markets & nearby spots for our guests"
-    )
-)
-
-# =========================================================
-# 1️⃣ 房源位置（Astra Sky River 附近）
-# =========================================================
-PROPERTY_LAT = 18.7816
-PROPERTY_LON = 99.0030
-
-def distance_km(lat1, lon1, lat2, lon2):
-    R = 6371
-    phi1, phi2 = math.radians(lat1), math.radians(lat2)
-    dphi = math.radians(lat2 - lat1)
-    dlambda = math.radians(lon2 - lon1)
-    a = math.sin(dphi/2)**2 + math.cos(phi1)*math.cos(phi2)*math.sin(dlambda/2)**2
-    return R * (2 * math.atan2(math.sqrt(a), math.sqrt(1-a)))
-
-def distance_label(km):
-    if km < 1:
-        return t("🚶 步行可达", "🚶 Walkable")
-    elif km < 3:
-        return t("🛺 5–10 分钟车程", "🛺 5–10 min ride")
-    else:
-        return t("🚕 需要打车", "🚕 Taxi / Grab")
-
-# =========================================================
-# 2️⃣ 天气逻辑（符合清迈）
-# =========================================================
-month = datetime.now().month
-is_rainy_season = month in [5,6,7,8,9,10]
-
-if is_rainy_season:
-    st.info(
-        t(
-            "🌧 雨季（5–10 月）：几乎每天会下雨，夜市 & 室内活动更舒适。",
-            "🌧 Rainy season (May–Oct): daily rain expected. Markets & indoor spots recommended."
-        )
-    )
-else:
-    st.success(
-        t(
-            "☀️ 旱季：天气稳定，非常适合夜市和户外活动。",
-            "☀️ Dry season: stable weather, great for outdoor activities."
-        )
-    )
-
-# =========================================================
-# 3️⃣ 节庆活动（含 Yi Peng / 跨年高亮）
-# =========================================================
+# --- 1. DATA: SPECIAL & SEASONAL EVENTS ---
 festivals = [
     {
-        "key": "yipeng",
-        "Name_CN": "义蓬 & 水灯节（Yi Peng / Loy Krathong）",
-        "Name_EN": "Yi Peng & Loy Krathong Festival",
-        "Start": datetime(2025, 11, 5),
-        "End": datetime(2025, 11, 6),
-        "Brief_CN": "清迈一年中最重要的节日之一，古城及河边非常拥挤，建议提前规划交通。",
-        "Brief_EN": "Chiang Mai’s most important festival. Expect heavy crowds; plan transport early.",
-        "Highlight": True,
-        "lat": 18.7877,
-        "lon": 98.9933,
+        "Name_CN": "皇家花园花卉节", "Name_EN": "Flora Festival at Royal Park Rajapruek",
+        "Start": datetime(2025, 11, 1), "End": datetime(2026, 2, 28),
+        "Brief_CN": "清迈最负盛名的皇家花园年度盛典，有壮观的兰花园、各国园林及百万株花卉。",
+        "Brief_EN": "Annual grand flower festival at Royal Park Rajapruek featuring orchid gardens and international flora.",
+        "lat": 18.7480, "lon": 98.9249, "Link": "https://www.royalparkrajapruek.org/"
     },
     {
-        "key": "countdown",
-        "Name_CN": "清迈官方跨年夜",
-        "Name_EN": "Chiang Mai Countdown",
-        "Start": datetime(2025, 12, 28),
-        "End": datetime(2026, 1, 1),
-        "Brief_CN": "纳瓦拉桥一带大型跨年倒数与烟火活动。",
-        "Brief_EN": "Official New Year countdown with fireworks at Nawarat Bridge.",
-        "Highlight": True,
-        "lat": 18.7879,
-        "lon": 99.0045,
+        "Name_CN": "2026 魅力清迈花卉节", "Name_EN": "Charming Chiang Mai Flower Festival",
+        "Start": datetime(2025, 11, 28), "End": datetime(2026, 1, 4),
+        "Brief_CN": "大型冬季花展，有绝美灯光秀、音乐喷泉和各色温带花卉，晚上非常漂亮。",
+        "Brief_EN": "Grand flower festival with light shows, musical fountains, and winter blooms.",
+        "lat": 18.8258, "lon": 98.9665, "Link": "https://www.facebook.com/CharmingChiangMaiFlowerFestival"
     },
+    {
+        "Name_CN": "Sawasdee Craft 手作艺术节", "Name_EN": "Sawasdee Craft at Baan Kang Wat",
+        "Start": datetime(2025, 12, 27), "End": datetime(2026, 1, 3),
+        "Brief_CN": "在森林艺术村 Baan Kang Wat 举办的年度手作盛会，汇集顶级匠人与工作坊。",
+        "Brief_EN": "Annual craft festival at the artist village featuring local artisans and workshops.",
+        "lat": 18.7766, "lon": 98.9485, "Link": "https://www.facebook.com/sawasdeecraft.chiangmai"
+    },
+    {
+        "Name_CN": "清迈官方跨年庆典", "Name_EN": "Chiang Mai Countdown 2026",
+        "Start": datetime(2025, 12, 28), "End": datetime(2026, 1, 1),
+        "Brief_CN": "跨年夜以纳瓦拉桥为中心，有大型烟火秀和倒数仪式，感受万人齐聚的热闹。",
+        "Brief_EN": "Official city countdown with grand fireworks at Nawarat Bridge.",
+        "lat": 18.7879, "lon": 99.0045, "Link": "https://www.facebook.com/cmmayor"
+    },
+    {
+        "Name_CN": "NAP 文创艺术周", "Name_EN": "Nimman Art & Design Promenade (NAP)",
+        "Start": datetime(2025, 12, 5), "End": datetime(2025, 12, 11),
+        "Brief_CN": "宁曼路5巷最著名的文创艺术街头市集，汇集清迈顶尖设计师作品。",
+        "Brief_EN": "Famous art & design street fair at Nimman Soi 5.",
+        "lat": 18.7995, "lon": 98.9680, "Link": "https://www.facebook.com/nimmansoi5"
+    }
 ]
 
-st.subheader(t("🎉 重要节庆提醒", "🎉 Major Festival Alerts"))
-
-today = datetime.now().date()
-festival_found = False
-
-for f in festivals:
-    if f["Start"].date() - timedelta(days=3) <= today <= f["End"].date():
-        festival_found = True
-        with st.container(border=True):
-            st.markdown(f"### 🔔 {t(f['Name_CN'], f['Name_EN'])}")
-            st.write(t(f["Brief_CN"], f["Brief_EN"]))
-            st.warning(
-                t(
-                    "⚠️ 节日期间交通拥堵，建议尽量步行或提前出发。",
-                    "⚠️ Heavy traffic expected. Walking or early departure recommended."
-                )
-            )
-            st.link_button(
-                t("📍 查看主要区域", "📍 View Main Area"),
-                f"https://www.google.com/maps?q={f['lat']},{f['lon']}"
-            )
-
-if not festival_found:
-    st.info(
-        t(
-            "近期无大型节庆，可安心安排夜市与日常行程。",
-            "No major festivals soon. Perfect time for markets & daily exploring."
-        )
-    )
-
-# =========================================================
-# 4️⃣ 夜市 / 市集（按距离排序）
-# =========================================================
-markets = [
+# --- 2. DATA: REGULAR MARKETS ---
+regular_markets = [
     {
-        "Name_CN": "长康路夜市（每日）",
-        "Name_EN": "Night Bazaar (Daily)",
-        "Brief_CN": "离房源最近，适合每天晚上散步。",
-        "Brief_EN": "Closest market. Perfect for an easy evening walk.",
-        "lat": 18.7850,
-        "lon": 99.0001,
+        "Name_CN": "雨树集市", "Name_EN": "Chamcha Market", "Day": [5, 6], "lat": 18.7778, "lon": 99.0435, 
+        "Brief_CN": "位于手工艺术村，艺术气息浓厚，有现场音乐和极具设计感的手工艺品。", "Brief_EN": "Artsy market in a craft village with live music and unique handmade crafts.",
+        "Link": "https://www.facebook.com/chamchamarket/"
     },
     {
-        "Name_CN": "周日步行街",
-        "Name_EN": "Sunday Walking Street",
-        "Brief_CN": "清迈最大夜市，每周日开放。",
-        "Brief_EN": "Largest night market. Sunday evenings only.",
-        "lat": 18.7877,
-        "lon": 98.9933,
+        "Name_CN": "长康路观光夜市 (每日)", "Name_EN": "Night Bazaar (Daily)", "Day": "Daily", "lat": 18.7850, "lon": 99.0001, 
+        "Brief_CN": "清迈最著名的每日夜市，适合晚餐、购买特产和足疗放松。", "Brief_EN": "Iconic daily night market on Chang Klan Road. Great for dinner and shopping.",
+        "Link": "https://www.google.com/search?q=Chiang+Mai+Night+Bazaar"
     },
     {
-        "Name_CN": "Jing Jai 周末市集",
-        "Name_EN": "Jing Jai Market",
-        "Brief_CN": "白天市集，咖啡和手作很棒。",
-        "Brief_EN": "Daytime market with great coffee & crafts.",
-        "lat": 18.8073,
-        "lon": 98.9955,
+        "Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street", "Day": 6, "lat": 18.7877, "lon": 98.9933, 
+        "Brief_CN": "清迈规模最大的夜市，贯穿古城中心，每周日晚开放。", "Brief_EN": "Chiang Mai's largest night market in the Old City, open Sunday evenings.",
+        "Link": "https://www.google.com/search?q=Sunday+Walking+Street+Chiang+Mai"
     },
+    {
+        "Name_CN": "Jing Jai 周末市集", "Name_EN": "Jing Jai Market", "Day": [5, 6], "lat": 18.8073, "lon": 98.9955, 
+        "Brief_CN": "清迈最有格调的早市：有机农产品、高质感手作和清迈最好的咖啡氛围。", "Brief_EN": "Organic food, quality crafts, and the best coffee vibes.",
+        "Link": "https://www.facebook.com/jjmarketchiangmai/"
+    },
+    {
+        "Name_CN": "椰林集市", "Name_EN": "Coconut Market", "Day": [5, 6], "lat": 18.8378, "lon": 99.0335, 
+        "Brief_CN": "位于翠绿椰林中的网红集市，非常适合周末拍照和品尝泰式小吃。", "Brief_EN": "Trendy market set in a coconut plantation, very photogenic.",
+        "Link": "https://www.google.com/search?q=Coconut+Market+Chiang+Mai"
+    }
 ]
 
-# 计算距离并排序
-for m in markets:
-    m["distance"] = distance_km(PROPERTY_LAT, PROPERTY_LON, m["lat"], m["lon"])
+# --- 3. UI & DATE LOGIC ---
+st.sidebar.title("🗓️ Plan Your Trip")
+selected_date = st.sidebar.date_input("Select Date", datetime.now())
+view_mode = st.sidebar.radio("View Range", ["Single Day", "Full Week"])
 
-markets.sort(key=lambda x: x["distance"])
+d_start = datetime.combine(selected_date, datetime.min.time())
+num_days = 1 if "Single" in view_mode else 7
+date_range = [d_start + timedelta(days=i) for i in range(num_days)]
 
-st.subheader(t("🛍 房源附近夜市 & 市集", "🛍 Nearby Markets"))
+# --- 4. TOP: WEATHER FORECAST (大小调整为正文一致) ---
+st.title("Elephant Chiang Mai Explorer 🐘")
+st.subheader("🌤️ 3-Day Weather Forecast / 天气预报")
+w_col1, w_col2, w_col3 = st.columns(3)
+with w_col1:
+    st.write("**Today / 今天**")
+    st.write("28°C / 16°C | ☀️ 晴朗")
+with w_col2:
+    st.write("**Tomorrow / 明天**")
+    st.write("29°C / 17°C | ☀️ 晴朗")
+with w_col3:
+    st.write("**Monday / 周一**")
+    st.write("27°C / 15°C | 🌤️ 多云转晴")
+st.markdown("---")
 
-for m in markets:
-    with st.container(border=True):
-        st.markdown(f"### {t(m['Name_CN'], m['Name_EN'])}")
-        st.write(t(m["Brief_CN"], m["Brief_EN"]))
-        st.caption(distance_label(m["distance"]))
+# --- 5. MAIN DISPLAY ---
+final_list = []
+for ev in festivals:
+    if any(ev["Start"] <= d <= ev["End"] for d in date_range):
+        final_list.append(ev)
+for m in regular_markets:
+    if m["Day"] == "Daily" or any(d.weekday() in (m["Day"] if isinstance(m["Day"], list) else [m["Day"]]) for d in date_range):
+        final_list.append(m)
 
-        st.link_button(
-            t("📍 Google 地图导航", "📍 Open in Google Maps"),
-            f"https://www.google.com/maps?q={m['lat']},{m['lon']}"
-        )
+st.subheader(f"📅 活动预览: {d_start.strftime('%Y-%m-%d')}")
 
-# ---------------- Footer ----------------
-st.divider()
-st.caption(
-    t(
-        "本指南为住客准备，祝你在清迈住得开心 🌿",
-        "This guide is prepared for our guests. Enjoy your stay in Chiang Mai 🌿"
-    )
-)
+if final_list:
+    for item in final_list:
+        with st.expander(f"📍 {item['Name_EN']} | {item['Name_CN']}"):
+            st.write(f"**{item.get('Brief_EN', '')}**")
+            st.write(item.get('Brief_CN', ''))
+            st.write("---")
+            c1, c2 = st.columns(2)
+            with c1: 
+                st.link_button("🌐 Info", item['Link'])
+            with c2:
+                maps_url = f"https://www.google.com/maps/search/?api=1&query={item['lat']},{item['lon']}"
+                st.link_button("📍 Navigation", maps_url)
+else:
+    st.info("该日期范围内暂无大型活动建议。")
+
+# --- 6. TRAVEL TIPS (底部) ---
+st.markdown("---")
+with st.expander("🚀 Essential Travel Tips / 出行贴士", expanded=True):
+    is_countdown = any(d.month == 12 and d.day == 31 for d in date_range)
+    is_weekend = any(d.weekday() in [5, 6] for d in date_range)
+    
+    t1, t2 = st.columns(2)
+    with t1:
+        if is_countdown: st.error("🎆 **NYE Alert:** Road closures near Nawarat Bridge.")
+        elif is_weekend: st.info("🛍️ **Weekend Market:** Visit JJ Market or Chamcha before 9 AM.")
+        else: st.success("🛵 **Weekday:** Great time for Royal Park Rajapruek.")
+    with t2:
+        if is_countdown: st.markdown("**跨年提醒:** 纳瓦拉桥周边封路，建议步行。")
+        elif is_weekend: st.markdown("**周末贴士:** 雨树集市（Chamcha）周末氛围极好，建议早点去避开人流。")
+        else: st.markdown("**平日贴士:** 皇家花园或艺术村平日游览更清静。")
