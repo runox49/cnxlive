@@ -40,18 +40,16 @@ festivals = [
         "Brief_CN": "宁曼路5巷最著名的文创艺术街头市集，汇集清迈顶尖设计师作品。",
         "Brief_EN": "Famous art & design street fair at Nimman Soi 5.",
         "lat": 18.7995, "lon": 98.9680, "Link": "https://www.facebook.com/nimmansoi5"
-    },
-    {
-        "Name_CN": "Ping Fai 烤火节", "Name_EN": "Ping Fai Festival",
-        "Start": datetime(2025, 12, 13), "End": datetime(2025, 12, 25),
-        "Brief_CN": "在 One Nimman 举办的冬季庆典：围炉烤棉花糖、现场音乐和节日摊位。",
-        "Brief_EN": "Christmas vibe in Nimman with marshmallow roasting and crafts.",
-        "lat": 18.8001, "lon": 98.9684, "Link": "https://www.facebook.com/pro.onenimman/"
     }
 ]
 
 # --- 2. DATA: REGULAR MARKETS ---
 regular_markets = [
+    {
+        "Name_CN": "雨树集市", "Name_EN": "Chamcha Market", "Day": [5, 6], "lat": 18.7778, "lon": 99.0435, 
+        "Brief_CN": "位于手工艺术村，艺术气息浓厚，有现场音乐和极具设计感的手工艺品。", "Brief_EN": "Artsy market in a craft village with live music and unique handmade crafts.",
+        "Link": "https://www.facebook.com/chamchamarket/"
+    },
     {
         "Name_CN": "长康路观光夜市 (每日)", "Name_EN": "Night Bazaar (Daily)", "Day": "Daily", "lat": 18.7850, "lon": 99.0001, 
         "Brief_CN": "清迈最著名的每日夜市，适合晚餐、购买特产和足疗放松。", "Brief_EN": "Iconic daily night market on Chang Klan Road. Great for dinner and shopping.",
@@ -59,7 +57,7 @@ regular_markets = [
     },
     {
         "Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street", "Day": 6, "lat": 18.7877, "lon": 98.9933, 
-        "Brief_CN": "清迈规模最大的夜市，贯穿古城核心区域，每周日晚开放。", "Brief_EN": "Chiang Mai's largest night market in the Old City, open Sunday evenings.",
+        "Brief_CN": "清迈规模最大的夜市，贯穿古城中心，每周日晚开放。", "Brief_EN": "Chiang Mai's largest night market in the Old City, open Sunday evenings.",
         "Link": "https://www.google.com/search?q=Sunday+Walking+Street+Chiang+Mai"
     },
     {
@@ -126,9 +124,9 @@ with st.expander("🚀 Essential Travel Tips / 出行贴士", expanded=True):
     t1, t2 = st.columns(2)
     with t1:
         if is_countdown: st.error("🎆 **NYE Alert:** Road closures near Nawarat Bridge.")
-        elif is_weekend: st.info("🛍️ **Weekend Market:** Visit JJ Market before 9 AM.")
+        elif is_weekend: st.info("🛍️ **Weekend Market:** Visit JJ Market or Chamcha before 9 AM.")
         else: st.success("🛵 **Weekday:** Great time for Royal Park Rajapruek.")
     with t2:
-        if is_countdown: st.markdown("**跨年提醒:** 纳瓦拉桥周边封路，建议搭乘双条车或步行。")
-        elif is_weekend: st.markdown("**周末贴士:** Jing Jai 市集越早去越好，手工品选择更多。")
-        else: st.markdown("**平日贴士:** 皇家花园很大，平日游览人更少，拍照更美。")
+        if is_countdown: st.markdown("**跨年提醒:** 纳瓦拉桥周边封路，建议步行。")
+        elif is_weekend: st.markdown("**周末贴士:** 雨树集市（Chamcha）周末氛围极好，建议早点去避开人流。")
+        else: st.markdown("**平日贴士:** 皇家花园或艺术村平日游览更清静。")
