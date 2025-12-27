@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 from datetime import datetime, timedelta
 
 # Page Config
@@ -46,11 +45,31 @@ festivals = [
 
 # --- 2. DATA: REGULAR MARKETS ---
 regular_markets = [
-    {"Name_CN": "周六夜市 (瓦莱路)", "Name_EN": "Saturday Walking Street", "Day": 5, "lat": 18.7783, "lon": 98.9880, "Link": "https://www.google.com/search?q=Saturday+Walking+Street+Chiang+Mai"},
-    {"Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street", "Day": 6, "lat": 18.7877, "lon": 98.9933, "Link": "https://www.google.com/search?q=Sunday+Walking+Street+Chiang+Mai"},
-    {"Name_CN": "Jing Jai 周末市集", "Name_EN": "Jing Jai Market", "Day": [5, 6], "lat": 18.8073, "lon": 98.9955, "Link": "https://www.facebook.com/jjmarketchiangmai/"},
-    {"Name_CN": "椰林集市", "Name_EN": "Coconut Market", "Day": [5, 6], "lat": 18.8378, "lon": 99.0335, "Link": "https://www.google.com/search?q=Coconut+Market+Chiang+Mai"},
-    {"Name_CN": "雨树集市", "Name_EN": "Chamcha Market", "Day": [5, 6], "lat": 18.7778, "lon": 99.0435, "Link": "https://www.facebook.com/chamchamarket/"}
+    {
+        "Name_CN": "周六夜市 (瓦莱路)", "Name_EN": "Saturday Walking Street", "Day": 5, "lat": 18.7783, "lon": 98.9880, 
+        "Brief_CN": "著名的银器街夜市，周六晚间开放，有很多手工艺品。", "Brief_EN": "Famous silver street market, open Saturday evenings.",
+        "Link": "https://www.google.com/search?q=Saturday+Walking+Street+Chiang+Mai"
+    },
+    {
+        "Name_CN": "周日步行街", "Name_EN": "Sunday Walking Street", "Day": 6, "lat": 18.7877, "lon": 98.9933, 
+        "Brief_CN": "清迈规模最大的夜市，横穿古城中心。", "Brief_EN": "Chiang Mai's largest night market in the Old City.",
+        "Link": "https://www.google.com/search?q=Sunday+Walking+Street+Chiang+Mai"
+    },
+    {
+        "Name_CN": "Jing Jai 周末市集", "Name_EN": "Jing Jai Market", "Day": [5, 6], "lat": 18.8073, "lon": 98.9955, 
+        "Brief_CN": "有机农产品、高质感手作和清迈最好的咖啡氛围。", "Brief_EN": "Organic food, quality crafts, and great coffee vibes.",
+        "Link": "https://www.facebook.com/jjmarketchiangmai/"
+    },
+    {
+        "Name_CN": "椰林集市", "Name_EN": "Coconut Market", "Day": [5, 6], "lat": 18.8378, "lon": 99.0335, 
+        "Brief_CN": "在椰林里的网红集市，非常适合拍照和闲逛。", "Brief_EN": "Trendy market set in a coconut plantation, very photogenic.",
+        "Link": "https://www.google.com/search?q=Coconut+Market+Chiang+Mai"
+    },
+    {
+        "Name_CN": "雨树集市", "Name_EN": "Chamcha Market", "Day": [5, 6], "lat": 18.7778, "lon": 99.0435, 
+        "Brief_CN": "位于手工艺术村，艺术气息浓厚，有现场音乐。", "Brief_EN": "Artsy market in a craft village with live music.",
+        "Link": "https://www.facebook.com/chamchamarket/"
+    }
 ]
 
 # --- 3. UI & DATE LOGIC ---
@@ -81,14 +100,16 @@ st.subheader(f"📅 {d_start.strftime('%B %d, %Y')}")
 if final_list:
     for item in final_list:
         with st.expander(f"📍 {item['Name_EN']} | {item['Name_CN']}"):
-            st.write(item.get('Brief_EN', ''))
+            # --- 这里找回了简介描述 ---
+            st.write(f"**{item.get('Brief_EN', '')}**")
             st.write(item.get('Brief_CN', ''))
-            # 恢复双按钮模式
+            st.write("---")
+            # --- 双按钮模式 ---
             c1, c2 = st.columns(2)
             with c1:
                 st.link_button("🌐 Info", item['Link'])
             with c2:
-                maps_url = f"https://www.google.com/maps?q={item['lat']},{item['lon']}"
+                maps_url = f"https://www.google.com/maps/search/?api=1&query={item['lat']},{item['lon']}"
                 st.link_button("📍 Navigation", maps_url)
 else:
     st.info("No major events found for this selection.")
