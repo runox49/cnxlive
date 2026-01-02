@@ -7,6 +7,20 @@ st.set_page_config(page_title="Chiang Mai Explorer", page_icon="🐘", layout="w
 # --- 1. DATA: SPECIAL & SEASONAL EVENTS ---
 festivals = [
     {
+        "Name_CN": "坤昌阡樱花谷 (离市区最近)", "Name_EN": "Khun Chang Kian Cherry Blossom",
+        "Start": datetime(2025, 12, 25), "End": datetime(2026, 2, 10),
+        "Brief_CN": "清迈最具烟火气的赏樱地。粉色樱花散落在山村和咖啡馆间，仿佛世外桃源。建议在双龙寺换乘双条车。",
+        "Brief_EN": "The closest cherry blossom spot to the city. Sakura trees bloom around Hmong village and coffee shops.",
+        "lat": 18.8398, "lon": 98.8970, "Link": "https://www.google.com/search?q=Khun+Chang+Kian+Sakura"
+    },
+    {
+        "Name_CN": "坤旺皇家农业中心 (最美樱花隧道)", "Name_EN": "Khun Wang Royal Agricultural Center",
+        "Start": datetime(2025, 12, 25), "End": datetime(2026, 2, 15),
+        "Brief_CN": "泰北最壮观的樱花胜地，拥有著名的樱花长廊。位于因他农山，花开满树时极为震撼。",
+        "Brief_EN": "The most famous sakura tunnel in Northern Thailand located in Doi Inthanon National Park.",
+        "lat": 18.6288, "lon": 98.5065, "Link": "https://www.facebook.com/KhunWangRoyalAgriculturalCenter"
+    },
+    {
         "Name_CN": "皇家花园花卉节", "Name_EN": "Flora Festival at Royal Park Rajapruek",
         "Start": datetime(2025, 11, 1), "End": datetime(2026, 2, 28),
         "Brief_CN": "清迈最负盛名的皇家花园年度盛典，有壮观的兰花园、各国园林及百万株花卉。",
