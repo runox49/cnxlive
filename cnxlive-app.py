@@ -18,7 +18,7 @@ festivals = [
         "Start": datetime(2025, 12, 25), "End": datetime(2026, 2, 15),
         "Brief_CN": "泰北最壮观的樱花胜地，拥有著名的樱花长廊。位于因他农山，花开满树时极为震撼。",
         "Brief_EN": "The most famous sakura tunnel in Northern Thailand located in Doi Inthanon National Park.",
-        "lat": 18.6288, "lon": 98.5065, "Link": "https://www.facebook.com/KhunWangRoyalAgriculturalCenter"
+        "lat": 18.6288, "lon": 98.5065, "Link": "https://maps.app.goo.gl/Tq3hM1D18a3SokLR7"
     },
     {
         "Name_CN": "皇家花园花卉节", "Name_EN": "Flora Festival at Royal Park Rajapruek",
