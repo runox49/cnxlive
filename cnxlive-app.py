@@ -21,6 +21,20 @@ festivals = [
         "lat": 18.6288, "lon": 98.5065, "Link": "https://maps.app.goo.gl/Tq3hM1D18a3SokLR7"
     },
     {
+        "Name_CN": "皇家花园金莲花盛宴", "Name_EN": "Golden Shower Bloom at Royal Park Rajapruek",
+        "Start": datetime(2026, 2, 1), "End": datetime(2026, 4, 30),
+        "Brief_CN": "这里拥有清迈最集中、最壮观的金莲花林。作为泰国国花，金黄色的花瓣与园区内的泰式佛阁建筑相映生辉。",
+        "Brief_EN": "The best place to see Thailand's national flower (Ratchaphruek) blooming in golden clusters alongside stunning Thai architecture.",
+        "lat": 18.7480, "lon": 98.9249, "Link": "https://www.royalparkrajapruek.org/"
+    },
+    {
+        "Name_CN": "古城护城河金黄走廊", "Name_EN": "Old City Moat Golden Shower Path",
+        "Start": datetime(2026, 2, 15), "End": datetime(2026, 5, 10),
+        "Brief_CN": "古城南门（松旁门）附近的护城河两岸。金色的花朵垂向水面，衬托着古老的城墙，是市区内最有氛围的赏花步行道。",
+        "Brief_EN": "Beautiful golden shower trees lining the ancient city moat, especially near the South Gate (Suan Pung Gate).",
+        "lat": 18.7816, "lon": 98.9815, "Link": "https://www.google.com/search?q=Chiang+Mai+Old+City+Moat+Flowers"
+    },
+    {
         "Name_CN": "皇家花园花卉节", "Name_EN": "Flora Festival at Royal Park Rajapruek",
         "Start": datetime(2025, 11, 1), "End": datetime(2026, 2, 28),
         "Brief_CN": "清迈最负盛名的皇家花园年度盛典，有壮观的兰花园、各国园林及百万株花卉。",
