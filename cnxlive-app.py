@@ -7,6 +7,13 @@ st.set_page_config(page_title="Chiang Mai Explorer", page_icon="🐘", layout="w
 # --- 1. DATA: SPECIAL & SEASONAL EVENTS ---
 festivals = [
     {
+        "Name_CN": "清迈鲜花节大游行", "Name_EN": "Chiang Mai Flower Festival Parade",
+        "Start": datetime(2026, 2, 7), "End": datetime(2026, 2, 7),
+        "Brief_CN": "全清迈最美的时刻！巨大的花车由数以万计的鲜花装饰，伴随着穿着传统服饰的方阵和音乐，从塔佩门外一路巡游至鲜花公园。",
+        "Brief_EN": "The highlight of the Flower Festival! Stunning floats decorated entirely with flowers, featuring traditional dancers and bands parading through the city.",
+        "lat": 18.7877, "lon": 98.9933, "Link": "https://www.google.com/search?q=Chiang+Mai+Flower+Festival+Parade+2026"
+    },
+    {
         "Name_CN": "清迈唐人街春节庆典", "Name_EN": "Chiang Mai Chinatown Chinese New Year",
         "Start": datetime(2026, 2, 16), "End": datetime(2026, 2, 19),
         "Brief_CN": "清迈瓦洛洛市场（唐人街）最热闹的时候。有舞龙舞狮、选美游行和绵延整条街的中华美食摊位，年味十足。",
