@@ -170,5 +170,5 @@ with st.expander("🚀 Essential Travel Tips / 出行贴士", expanded=True):
         else: st.success("🛵 **Weekday:** Great time for Royal Park Rajapruek.")
     with t2:
         if is_countdown: st.markdown("**跨年提醒:** 纳瓦拉桥周边封路，建议步行。")
-        elif is_weekend: st.markdown("**周末贴士:** 雨树集市（Chamcha）周末氛围极好，建议早点去避开人流。")
-        else: st.markdown("**平日贴士:** 皇家花园或艺术村平日游览更清静。")
+        elif is_weekend: st.markdown("**周末贴士:** JJ集市 或 雨林集市（Chamcha）周末氛围极好，建议早点去避开人流。")
+        else: st.markdown("**平日贴士:** 皇家花园平日游览更清静。")
