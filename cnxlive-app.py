@@ -7,6 +7,13 @@ st.set_page_config(page_title="Chiang Mai Explorer", page_icon="🐘", layout="w
 # --- 1. DATA: SPECIAL & SEASONAL EVENTS ---
 festivals = [
     {
+        "Name_CN": "博桑纸伞手工艺节", "Name_EN": "Bo Sang Umbrella & Sankampaeng Craft Festival",
+        "Start": datetime(2026, 1, 16), "End": datetime(2026, 1, 18),
+        "Brief_CN": "清迈最亮丽的传统节日之一。整个博桑村会挂满五彩斑斓的纸伞，还有盛大的纸伞选美游行、手工艺市集和夜间灯光秀。",
+        "Brief_EN": "One of the most colorful festivals in Chiang Mai. The village is decorated with umbrellas, featuring grand parades, craft markets, and cultural shows.",
+        "lat": 18.7651, "lon": 99.0815, "Link": "https://www.facebook.com/BoSangUmbrellaFestival"
+    },
+    {
         "Name_CN": "坤昌阡樱花谷 (离市区最近)", "Name_EN": "Khun Chang Kian Cherry Blossom",
         "Start": datetime(2025, 12, 25), "End": datetime(2026, 2, 10),
         "Brief_CN": "清迈最具烟火气的赏樱地。粉色樱花散落在山村和咖啡馆间，仿佛世外桃源。建议在双龙寺换乘双条车。",
