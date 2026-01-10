@@ -7,6 +7,20 @@ st.set_page_config(page_title="Chiang Mai Explorer", page_icon="🐘", layout="w
 # --- 1. DATA: SPECIAL & SEASONAL EVENTS ---
 festivals = [
     {
+        "Name_CN": "清迈唐人街春节庆典", "Name_EN": "Chiang Mai Chinatown Chinese New Year",
+        "Start": datetime(2026, 2, 16), "End": datetime(2026, 2, 19),
+        "Brief_CN": "清迈瓦洛洛市场（唐人街）最热闹的时候。有舞龙舞狮、选美游行和绵延整条街的中华美食摊位，年味十足。",
+        "Brief_EN": "Grand celebration at Warorot Market featuring dragon dances, cultural parades, and a massive street food market.",
+        "lat": 18.7903, "lon": 99.0003, "Link": "https://www.google.com/search?q=Chiang+Mai+Chinese+New+Year+Warorot"
+    },
+    {
+        "Name_CN": "春节红灯笼展 (布帕兰寺)", "Name_EN": "CNY Lantern Display at Wat Buppharam",
+        "Start": datetime(2026, 2, 14), "End": datetime(2026, 2, 22),
+        "Brief_CN": "为了庆祝春节，寺庙会挂起数以千计的红灯笼。这里曾是电影《泰囧》取景地，是春节期间清迈最热门的点灯打卡地。",
+        "Brief_EN": "Famous 'Lost in Thailand' temple decorated with thousands of red lanterns for the Lunar New Year.",
+        "lat": 18.7882, "lon": 99.0016, "Link": "https://www.google.com/search?q=Wat+Buppharam+Chiang+Mai+CNY"
+    },
+    {
         "Name_CN": "博桑纸伞手工艺节", "Name_EN": "Bo Sang Umbrella & Sankampaeng Craft Festival",
         "Start": datetime(2026, 1, 16), "End": datetime(2026, 1, 18),
         "Brief_CN": "清迈最亮丽的传统节日之一。整个博桑村会挂满五彩斑斓的纸伞，还有盛大的纸伞选美游行、手工艺市集和夜间灯光秀。",
