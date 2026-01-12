@@ -137,19 +137,32 @@ d_start = datetime.combine(selected_date, datetime.min.time())
 num_days = 1 if "Single" in view_mode else 7
 date_range = [d_start + timedelta(days=i) for i in range(num_days)]
 
-# --- 4. TOP: WEATHER FORECAST (大小调整为正文一致) ---
+# --- 4. TOP: WEATHER FORECAST (动态日期版) ---
 st.title("Elephant Chiang Mai Explorer 🐘")
 st.subheader("🌤️ 3-Day Weather Forecast / 天气预报")
+
+# 根据用户选择的日期计算
+date0 = selected_date
+date1 = selected_date + timedelta(days=1)
+date2 = selected_date + timedelta(days=2)
+
+# 定义星期转换字典
+week_days_cn = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+
 w_col1, w_col2, w_col3 = st.columns(3)
+
 with w_col1:
-    st.write("**Today / 今天**")
-    st.write("28°C / 16°C | ☀️ 晴朗")
+    st.write(f"**Today / 今天 ({date0.strftime('%m-%d')})**")
+    st.write(f"{week_days_cn[date0.weekday()]} | 28°C / 16°C | ☀️ 晴朗")
+
 with w_col2:
-    st.write("**Tomorrow / 明天**")
-    st.write("29°C / 17°C | ☀️ 晴朗")
+    st.write(f"**Tomorrow / 明天 ({date1.strftime('%m-%d')})**")
+    st.write(f"{week_days_cn[date1.weekday()]} | 29°C / 17°C | ☀️ 晴朗")
+
 with w_col3:
-    st.write("**Monday / 周一**")
-    st.write("27°C / 15°C | 🌤️ 多云转晴")
+    st.write(f"**Day After / 后天 ({date2.strftime('%m-%d')})**")
+    st.write(f"{week_days_cn[date2.weekday()]} | 27°C / 15°C | 🌤️ 多云转晴")
+
 st.markdown("---")
 
 # --- 5. MAIN DISPLAY ---
